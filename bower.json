@@ -1,0 +1,25 @@
+{
+  "name": "Bower-Gulp-Starterkit",
+  "description": "Website Starterkit with Bower and Gulp",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "vendor/bower_components",
+    "source",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "overrides": {},
+  "authors": [
+    "Lukas Lamm <lukas.lamm89@gmail.com>"
+  ],
+  "main": "gulpfile.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "ISC",
+  "homepage": "http://lukaslamm.de",
+  "private": true
+}

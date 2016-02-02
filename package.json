@@ -1,0 +1,25 @@
+{
+	"name": "Bower-Gulp-Starterkit",
+	"version": "1.0.0",
+	"description": "Website Starterkit with Bower and Gulp",
+	"author": "Lukas Lamm <lukas.lamm89@gmail.com>",
+	"license": "ISC",
+	"main": "gulpfile.js",
+	"private": true,
+	"dependencies": {
+		
+	},
+	"devDependencies": {
+		"gulp": "^3.8.8",
+		"del": "^2.2.0",
+		"gulp-concat": "^2.6.0",
+		"gulp-less": "^3.0.5",
+		"gulp-sourcemaps": "^1.6.0",
+		"less-plugin-autoprefix": "^1.5.1",
+		"gulp-rename": "^1.2.2",
+		"gulp-strip-comments": "^1.0.1"
+		},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	}
+}

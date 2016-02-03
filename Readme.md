@@ -1,4 +1,5 @@
 # HTML Starterkit with Bower and Gulp
+This starterkit was developed for easy setting up small test environments with Bower and Gulp. I use this kit when trying new stuff in the JS-world or testing out random APIs.
 
 ## Install dependencies
 
@@ -196,3 +197,8 @@ Our main index file is in `./public/index.html`. It inherits a basic HTML struct
 	</body>
 </html>
 ```
+
+## License
+This project is licensed under the MIT License (MIT). For more information have a look at License.md.
+
+Feel free to use this starterkit as basis to your projects.

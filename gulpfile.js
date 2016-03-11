@@ -1,13 +1,11 @@
 var gulp = require('gulp'),
 	del = require('del'),
 	concat = require('gulp-concat'),
-	less = require('gulp-less'),
+	sass = require('gulp-sass'),
 	rename = require('gulp-rename'),
 	strip = require('gulp-strip-comments'),
-	sourcemaps = require('gulp-sourcemaps');
-
-var LessPluginAutoPrefix = require('less-plugin-autoprefix'),
-	autoprefix = new LessPluginAutoPrefix({browsers: ['last 10 versions'], remove: false});
+	sourcemaps = require('gulp-sourcemaps'),
+	autoprefixer = require('gulp-autoprefixer');
 
 gulp.task("copyfiles", function() {
 
@@ -19,8 +17,8 @@ gulp.task('clean', function(cb) {
 	del([
 		'source/css/**/*',
         'source/js/**/*',
-        'source/less/**/*',
-        '!source/less/*.less'
+        'source/sass/**/*',
+        '!source/sass/*.scss',
 	], cb);
 });
 
@@ -30,13 +28,11 @@ gulp.task('scripts', function() {
 
 });
 
-gulp.task('less', function() {
-	gulp.src('source/less/style.less')
+gulp.task('sass', function() {
+	gulp.src('source/sass/style.scss')
 		.pipe(sourcemaps.init())
-		.pipe(less({
-			paths: ['source/less'],
-			plugins: [autoprefix]
-		}))
+		.pipe(autoprefixer("last 10 versions"))
+		.pipe(sass().on('error', sass.logError))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('public/css'));
 });
@@ -49,9 +45,9 @@ gulp.task('css', function() {
 
 gulp.task('watch', function() {
 	gulp.watch([
-		'source/less/style.less',
-		'source/less/responsive.less'
-	], ['less']);
+		'source/sass/style.scss',
+		'source/sass/responsive.scss'
+	], ['sass']);
 });
 
-gulp.task('default', ['scripts', 'less', 'css']);
+gulp.task('default', ['scripts', 'sass', 'css']);

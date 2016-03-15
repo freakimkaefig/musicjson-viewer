@@ -21,6 +21,14 @@ gulp.task("copyfiles", function() {
 	gulp.src("vendor/bower_components/Materialize/dist/font/**")
 		.pipe(gulp.dest("public/font/"));
 
+	// Copy MIDI.js
+	gulp.src("vendor/bower_components/panarch-midi/build/MIDI.js")
+		.pipe(gulp.dest("source/js/midijs"));
+	gulp.src("vendor/bower_components/panarch-midi/inc/**")
+		.pipe(gulp.dest("source/js/midijs/"))
+	gulp.src("vendor/bower_components/panarch-midi/soundfont/**")
+		.pipe(gulp.dest("public/soundfont/"));
+
 });
 
 gulp.task('clean', function(cb) {
@@ -29,6 +37,7 @@ gulp.task('clean', function(cb) {
         'source/js/**/*',
         'source/sass/**/*',
         'public/font',
+        'public/soundfont',
         '!source/sass/*.scss',
 	], cb);
 });
@@ -41,6 +50,17 @@ gulp.task('scripts', function() {
 		'source/js/materialize.js'
 	])
 	.pipe(concat('frontend.js'))
+	.pipe(gulp.dest('public/js/'));
+
+	gulp.src([
+		'source/js/midijs/MIDI.js',
+		'source/js/midijs/jasmid/stream.js',
+		'source/js/midijs/jasmid/midifile.js',
+		'source/js/midijs/jasmid/replayer.js',
+		'source/js/midijs/Base64.js',
+		'source/js/midijs/base64binary.js'
+	])
+	.pipe(concat('midi.js'))
 	.pipe(gulp.dest('public/js/'));
 
 });

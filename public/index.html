@@ -17,6 +17,104 @@
 	<body>
 		<div class="container">
 			<h1>Hello, abcjs Demo!</h1>
+			<div id="notation"></div>
+			<div id="midi"></div>
+			<div id="player">
+				<a class="btn btn-play disabled"><i class="material-icons">play_circle_filled</i></a>
+				<a class="btn btn-stop disabled"><i class="material-icons">stop</i></a>
+				<span class="currentTime">0</span><span> / </span>0<span class="endTime"></span>
+			</div>
 		</div>
+
+		<script type="text/javascript" src="js/abcjs_basic_2.3-min.js"></script>
+		<script type="text/javascript" src="js/midi.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+
+				// the abc notated string
+				var tunes = "X:1 \n"
+						  + "T: Test \n"
+						  + "M: 4/4 \n"
+						  + "L: 1/4 \n"
+						  + "K: treble \n"
+						  + "K: C \n"
+						  + "C, D, E, F, | G, A, B, z1 | \n"
+						  + "C D E F | G A B z1 | \n"
+						  + "c d e f | g a b z1 | \n"
+						  + "c' d' e' f' | g' a' b' z1 |]";
+
+				// params for abcjs
+				var parserParams = {},
+					renderParams = {};
+					engraverParams = {
+						add_classes: true,
+						listener: {
+							highlight: function(abcElem) {
+								console.log("highlight", abcElem);
+							},
+							modelChanged: function(abcElem) {
+								console.log("modelChanged", abcElem);
+							}
+						}
+					},
+					midiParams = {};
+				var abc = ABCJS.renderAbc('notation', tunes, parserParams, engraverParams, renderParams);
+				var midi = ABCJS.renderMidi('midi', tunes, parserParams, midiParams, renderParams);
+
+				// MIDI.js
+				var player = null;
+				var counter = 0;
+				var currentNote = null;
+				MIDI.loadPlugin(function() {
+					player = MIDI.Player;
+					var song = $('#midi a').attr('href');
+					player.loadFile(song, function() {
+						player.addListener(function(data) { // set it to your own function!
+						    console.log(data);
+						    $('#player .currentTime').text(Math.round(data.now));
+						    $('#player .endTime').text(Math.round(data.end));
+					    	currentNote = $('#notation .note').get(counter);
+						    if (data.message == 144) { // noteOn
+						    	$('#notation .note').removeClass('note_selected');
+						    	$(currentNote).addClass('note_selected');
+						    }
+						    if (data.message == 128) { // noteOff
+						    	counter++;
+						    }
+						});
+
+						$('#player .btn-play').removeClass('disabled');
+						$('#player .btn-stop').removeClass('disabled');
+
+						$('#player .endTime').text(Math.round(player.endTime));
+						console.log(player);
+					});
+
+				});
+
+				$('#player .btn-play').click(function() {
+					if (!$(this).hasClass('disabled')) {
+						if (player.playing) {
+							player.pause();
+							$('#player .btn-play').find('.material-icons').text('play_circle_filled');
+						} else {
+							player.resume();
+							$('#player .btn-play').find('.material-icons').text('pause_circle_filled');
+						}
+					}
+					ABCJS.startAnimation(document.getElementById('notation'), abc[0], {});
+				});
+
+				$('#player .btn-stop').click(function() {
+					if (!$(this).hasClass('disabled')) {
+						player.stop();
+						$('#player .btn-play').find('.material-icons').text('play_circle_filled');
+						$('#player .currentTime').text(0);
+				    	$('#player .endTime').text(0);
+					}
+				});
+
+			});
+		</script>
 	</body>
 </html>

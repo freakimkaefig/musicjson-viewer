@@ -1,7 +1,7 @@
 {
-	"name": "Bower-Gulp-Starterkit-with-Sass",
+	"name": "abcjs-demo",
 	"version": "1.0.0",
-	"description": "Website Starterkit with Bower, Gulp and Sass",
+	"description": "abcjs demo app",
 	"author": "Lukas Lamm <lukas.lamm89@gmail.com>",
 	"license": "ISC",
 	"main": "gulpfile.js",

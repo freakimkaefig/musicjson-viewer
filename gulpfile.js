@@ -9,7 +9,17 @@ var gulp = require('gulp'),
 
 gulp.task("copyfiles", function() {
 
-	// Files from vendor/bower_components, where you need them
+	// Copy jQuery
+	gulp.src("vendor/bower_components/jquery/dist/jquery.js")
+		.pipe(gulp.dest("source/js/"));
+
+	// Copy Materialize
+	gulp.src("vendor/bower_components/Materialize/dist/js/materialize.js")
+		.pipe(gulp.dest("source/js/"));
+	gulp.src("vendor/bower_components/Materialize/sass/**")
+		.pipe(gulp.dest("source/sass/materialize"));
+	gulp.src("vendor/bower_components/Materialize/dist/font/**")
+		.pipe(gulp.dest("public/font/"));
 
 });
 
@@ -18,13 +28,20 @@ gulp.task('clean', function(cb) {
 		'source/css/**/*',
         'source/js/**/*',
         'source/sass/**/*',
+        'public/font',
         '!source/sass/*.scss',
 	], cb);
 });
 
 gulp.task('scripts', function() {
 
-	// Merge scripts here
+	// Merge frontend scripts
+	gulp.src([
+		'source/js/jquery.js',
+		'source/js/materialize.js'
+	])
+	.pipe(concat('frontend.js'))
+	.pipe(gulp.dest('public/js/'));
 
 });
 

@@ -147,7 +147,7 @@
 					return function(e) {
 						var data = JSON.parse(e.target.result);
 						$.ajax({
-							url: 'nodejs/musicjson2abc',
+							url: 'http://frkmkfg.menkar.uberspace.de:62815/musicjson2abc',
 							type: 'POST',
 							data: JSON.stringify(data),
 							contentType: "application/json; charset=utf-8",

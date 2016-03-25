@@ -15,20 +15,56 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 	</head>
 	<body>
-		<div class="container">
-			<h1>Hello, abcjs Demo!</h1>
-			<div id="form">
-				<input type="file" id="file" name="file">
-				<output id="output"></output>
-			</div>
-			<div id="notation"></div>
-			<div id="midi"></div>
-			<div id="player">
-				<a class="btn btn-play disabled"><i class="material-icons">play_circle_filled</i></a>
-				<a class="btn btn-stop disabled"><i class="material-icons">stop</i></a>
-				<span class="currentTime">0</span><span> / </span>0<span class="endTime"></span>
-			</div>
-		</div>
+
+        <nav class="grey darken-3" role="navigation">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">musicjson viewer demo</a>
+            </div>
+        </nav>
+
+        <div class="section">
+            <div class="container">
+                <div id="form">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" id="file" name="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input type="text" class="file-path validate" placeholder="Upload musicjson file here ...">
+                        </div>
+                    </div>
+                </div>
+                <div id="notation"></div>
+                <div id="midi"></div>
+                <div id="player">
+                    <div class="progress">
+                        <div id="player-progress" class="determinate" style="width: 0%"></div>
+                    </div>
+                    <a class="btn btn-play disabled"><i class="material-icons">play_circle_filled</i></a>
+                    <a class="btn btn-stop disabled"><i class="material-icons">stop</i></a>
+                    <span class="currentTime">0</span><span> / </span>0<span class="endTime"></span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="page-footer grey darken-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col s6">
+                        <a href="https://github.com/freakimkaefig/musicjson-viewer" target="_blank">Project on Github</a>
+                    </div>
+                    <div class="col s6">
+                        <a href="https://github.com/freakimkaefig/musicjson-viewer/blob/master/LICENSE" target="_blank">Licensed under MIT open source license.</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    Made by Lukas Lamm
+                </div>
+            </div>
+        </footer>
 
 		<script type="text/javascript" src="js/abcjs_basic_2.3-min.js"></script>
 		<script type="text/javascript" src="js/midi.js"></script>
@@ -62,8 +98,7 @@
 					player.loadFile(song, function() {
 						player.addListener(function(data) { // set it to your own function!
 						    console.log(data);
-						    $('#player .currentTime').text(Math.round(data.now));
-						    $('#player .endTime').text(Math.round(data.end));
+                            $('#player-progress').css('width', (data.now / data.end) * 100 + '%');
 					    	currentNote = $('#notation .note').get(counter);
 						    if (data.message == 144) { // noteOn
 						    	$('#notation .note').removeClass('note_selected');
@@ -76,14 +111,13 @@
 
 						$('#player .btn-play').removeClass('disabled');
 						$('#player .btn-stop').removeClass('disabled');
-
-						$('#player .endTime').text(Math.round(player.endTime));
+                        $('#player-progress').css('width', '0%');
 						console.log(player);
 					});
 
 				});
 
-				$('#player .btn-play').click(function() {
+				$('#player .btn-play').on('click', function() {
 					if (!$(this).hasClass('disabled')) {
 						if (player.playing) {
 							player.pause();
@@ -96,12 +130,11 @@
 					ABCJS.startAnimation(document.getElementById('notation'), abc[0], {});
 				});
 
-				$('#player .btn-stop').click(function() {
+				$('#player .btn-stop').on('click', function() {
 					if (!$(this).hasClass('disabled')) {
 						player.stop();
+                        $('#player-progress').css('width', '0%');
 						$('#player .btn-play').find('.material-icons').text('play_circle_filled');
-						$('#player .currentTime').text(0);
-				    	$('#player .endTime').text(0);
 					}
 				});
 			}

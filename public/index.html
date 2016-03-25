@@ -34,18 +34,6 @@
 		<script type="text/javascript" src="js/midi.js"></script>
 		<script type="text/javascript">
 			function renderAbc(tunes) {
-				// the abc notated string
-				// var tunes = "X:1 \n"
-				// 		  + "T: Test \n"
-				// 		  + "M: 4/4 \n"
-				// 		  + "L: 1/4 \n"
-				// 		  + "K: treble \n"
-				// 		  + "K: C \n"
-				// 		  + "C, D, E, F, | G, A, B, z1 | \n"
-				// 		  + "C D E F | G A B z1 | \n"
-				// 		  + "c d e f | g a b z1 | \n"
-				// 		  + "c' d' e' f' | g' a' b' z1 |]";
-
 				// params for abcjs
 				var parserParams = {},
 					renderParams = {};
@@ -125,8 +113,7 @@
 				reader.readAsText(file);
 				reader.onload = (function(theFile) {
 					return function(e) {
-						// console.log(JSON.parse(e.target.result));
-						var data = JSON.parse(e.target.result)
+						var data = JSON.parse(e.target.result);
 						$.ajax({
 							url: 'http://localhost:61000/musicjson2abc',
 							type: 'POST',

@@ -18,7 +18,11 @@ app.post('/musicjson2abc', function(req, res, next) {
 	var data = req.body;
 	var abc = converter.convert2Abc(JSON.stringify(data));
 
-	// console.log(abc);
+	console.log("===== CONVERTED =====");
+    console.log("ID: " + data.id);
+    console.log("===== OUTPUT =====");
+	console.log(abc);
+    console.log("");
 
 	return res.status(200).send(JSON.stringify({ abc: abc }));
 });

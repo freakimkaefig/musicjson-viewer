@@ -29,6 +29,14 @@ gulp.task("copyfiles", function() {
 	gulp.src("vendor/bower_components/panarch-midi/soundfont/**")
 		.pipe(gulp.dest("public/soundfont/"));
 
+	// Copy Dropzone.js
+	gulp.src("vendor/bower_components/dropzone/dist/dropzone.js")
+		.pipe(gulp.dest("source/js/"));
+	gulp.src("vendor/bower_components/dropzone/dist/dropzone.css")
+		.pipe(rename("dropzone.scss"))
+		.pipe(gulp.dest("source/sass/dropzone"));
+
+
 });
 
 gulp.task('clean', function(cb) {
@@ -47,7 +55,8 @@ gulp.task('scripts', function() {
 	// Merge frontend scripts
 	gulp.src([
 		'source/js/jquery.js',
-		'source/js/materialize.js'
+		'source/js/materialize.js',
+		'source/js/dropzone.js'
 	])
 	.pipe(concat('frontend.js'))
 	.pipe(gulp.dest('public/js/'));

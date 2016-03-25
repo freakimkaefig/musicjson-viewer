@@ -1,0 +1,28 @@
+var express = require('express');
+var bodyParser = require('body-parser');
+var converter = require('musicjson2abc');
+
+var app = express();
+
+app.use(function(req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', 'http://abc.local');
+	res.setHeader('Access-Control-Allow-Methods', 'POST');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Cache-Control');
+	next();
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.post('/musicjson2abc', function(req, res, next) {
+	var data = req.body;
+	var abc = converter.convert2Abc(JSON.stringify(data));
+
+	// console.log(abc);
+
+	return res.status(200).send(JSON.stringify({ abc: abc }));
+});
+
+app.listen(61000, function() {
+	console.log("Started on PORT 61000");
+});

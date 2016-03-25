@@ -12,7 +12,8 @@
   ],
   "dependencies": {
     "Materialize": "materialize#^0.97.5",
-    "panarch-midi": "*"
+    "panarch-midi": "*",
+    "dropzone": "^4.3.0"
   },
   "overrides": {},
   "authors": [

@@ -17,6 +17,10 @@
 	<body>
 		<div class="container">
 			<h1>Hello, abcjs Demo!</h1>
+			<div id="form">
+				<input type="file" id="file" name="file">
+				<output id="output"></output>
+			</div>
 			<div id="notation"></div>
 			<div id="midi"></div>
 			<div id="player">
@@ -29,19 +33,18 @@
 		<script type="text/javascript" src="js/abcjs_basic_2.3-min.js"></script>
 		<script type="text/javascript" src="js/midi.js"></script>
 		<script type="text/javascript">
-			jQuery(document).ready(function() {
-
+			function renderAbc(tunes) {
 				// the abc notated string
-				var tunes = "X:1 \n"
-						  + "T: Test \n"
-						  + "M: 4/4 \n"
-						  + "L: 1/4 \n"
-						  + "K: treble \n"
-						  + "K: C \n"
-						  + "C, D, E, F, | G, A, B, z1 | \n"
-						  + "C D E F | G A B z1 | \n"
-						  + "c d e f | g a b z1 | \n"
-						  + "c' d' e' f' | g' a' b' z1 |]";
+				// var tunes = "X:1 \n"
+				// 		  + "T: Test \n"
+				// 		  + "M: 4/4 \n"
+				// 		  + "L: 1/4 \n"
+				// 		  + "K: treble \n"
+				// 		  + "K: C \n"
+				// 		  + "C, D, E, F, | G, A, B, z1 | \n"
+				// 		  + "C D E F | G A B z1 | \n"
+				// 		  + "c d e f | g a b z1 | \n"
+				// 		  + "c' d' e' f' | g' a' b' z1 |]";
 
 				// params for abcjs
 				var parserParams = {},
@@ -113,8 +116,35 @@
 				    	$('#player .endTime').text(0);
 					}
 				});
+			}
 
-			});
+			function handleFileSelect(event) {
+				var file = event.target.files[0];
+
+				var reader = new FileReader();
+				reader.readAsText(file);
+				reader.onload = (function(theFile) {
+					return function(e) {
+						// console.log(JSON.parse(e.target.result));
+						var data = JSON.parse(e.target.result)
+						$.ajax({
+							url: 'http://localhost:61000/musicjson2abc',
+							type: 'POST',
+							data: JSON.stringify(data),
+							contentType: "application/json; charset=utf-8",
+							dataType: "json",
+							success: function(data) {
+								console.log("SUCCESS", data);
+								renderAbc(data.abc);
+							},
+							failure: function(error) {
+								console.error("ERROR", error);
+							}
+						});
+					}
+				})(file);
+			}
+			document.getElementById('file').addEventListener('change', handleFileSelect, false);
 		</script>
 	</body>
 </html>

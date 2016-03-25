@@ -14,6 +14,10 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/', function(req, res, next) {
+	res.send('Hello World!');
+});
+
 app.post('/musicjson2abc', function(req, res, next) {
 	var data = req.body;
 	var abc = converter.convert2Abc(JSON.stringify(data));

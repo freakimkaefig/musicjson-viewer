@@ -147,7 +147,7 @@
 					return function(e) {
 						var data = JSON.parse(e.target.result);
 						$.ajax({
-							url: 'http://localhost:61000/musicjson2abc',
+							url: 'nodejs/musicjson2abc',
 							type: 'POST',
 							data: JSON.stringify(data),
 							contentType: "application/json; charset=utf-8",
